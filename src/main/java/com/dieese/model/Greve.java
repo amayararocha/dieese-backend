@@ -1,14 +1,12 @@
 package com.dieese.model;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Entity
 @Data
 public class Greve {
     @Id
@@ -21,4 +19,8 @@ public class Greve {
     private List<String> categoriasTrabalhadores;
     private int numeroTrabalhadores;
     private String local;
+
+    @ManyToOne
+    @JoinColumn(name = "sindicato_id")
+    private Sindicato sindicato;
 }

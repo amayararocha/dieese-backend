@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.util.List;
 
+@Entity
 @Data
 public class Sindicato {
     @Id
@@ -15,8 +16,4 @@ public class Sindicato {
 
     @OneToMany(mappedBy = "sindicato")
     private List<Greve> greves;
-
-    @ManyToOne
-    @JoinColumn(name = "sindicato_id")
-    private Sindicato sindicato;
 }
