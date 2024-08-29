@@ -1,5 +1,6 @@
 package com.dieese.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,5 +23,6 @@ public class Greve {
 
     @ManyToOne
     @JoinColumn(name = "sindicato_id")
+    @JsonBackReference
     private Sindicato sindicato;
 }

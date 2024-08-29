@@ -1,5 +1,6 @@
 package com.dieese.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.List;
@@ -21,5 +22,6 @@ public class Sindicato {
     private String password;
 
     @OneToMany(mappedBy = "sindicato")
+    @JsonManagedReference
     private List<Greve> greves;
 }
