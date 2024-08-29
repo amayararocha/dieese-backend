@@ -129,10 +129,8 @@ Para executar a API localmente, siga os passos abaixo:
 ```
    git clone https://github.com/amayararocha/greve-dieese.git
 ``` 
-2. **Navegue até o diretório do projeto:**
-```
-   cd greve-dieese
-```
+2. **Abra o projeto na IDE de sua preferência**
+
 3. **Configure o arquivo application.properties para o ambiente de desenvolvimento:**
 ```
   spring.profiles.active=dev
