@@ -1,60 +1,61 @@
 package com.dieese.controller;
 
 import com.dieese.model.Greve;
-import com.dieese.service.GreveService;
+import com.dieese.repository.GreveRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/greves")
+@RequestMapping("/greves")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class GreveController {
 
     @Autowired
-    private GreveService greveService;
+    private GreveRepository greveRepository;
 
-    @PostMapping
-    public ResponseEntity<Greve> createGreve(@RequestBody Greve greve) {
-        try {
-            Greve createdGreve = greveService.createGreve(greve);
-            return ResponseEntity.ok(createdGreve);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(null);
-        }
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Greve>> getAllGreves() {
-        List<Greve> greves = greveService.getAllGreves();
+    @GetMapping("/all")
+    public ResponseEntity<List<Greve>> getAll() {
+        List<Greve> greves = greveRepository.findAll();
         return ResponseEntity.ok(greves);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Greve> getGreveById(@PathVariable Long id) {
-        Optional<Greve> greve = greveService.getGreveById(id);
-        return greve.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<Greve> getById(@PathVariable Long id) {
+        Optional<Greve> greve = greveRepository.findById(id);
+        return greve.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Greve> updateGreve(@PathVariable Long id, @RequestBody Greve greveDetails) {
+    @PostMapping("/cadastrar")
+    public ResponseEntity<Greve> postGreve(@RequestBody @Valid Greve greve) {
         try {
-            Greve updatedGreve = greveService.updateGreve(id, greveDetails);
+            Greve savedGreve = greveRepository.save(greve);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedGreve);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @PutMapping("/atualizar")
+    public ResponseEntity<Greve> putGreve(@RequestBody @Valid Greve greve) {
+        if (greveRepository.existsById(greve.getId())) {
+            Greve updatedGreve = greveRepository.save(greve);
             return ResponseEntity.ok(updatedGreve);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(null);
         }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Void> deleteGreve(@PathVariable Long id) {
-        try {
-            greveService.deleteGreve(id);
+        if (greveRepository.existsById(id)) {
+            greveRepository.deleteById(id);
             return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.notFound().build();
     }
 }
