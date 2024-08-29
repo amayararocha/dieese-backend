@@ -3,7 +3,6 @@ package com.dieese.service;
 import com.dieese.model.Sindicato;
 import com.dieese.repository.SindicatoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,11 +14,16 @@ public class SindicatoService {
     @Autowired
     private SindicatoRepository sindicatoRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public boolean authenticate(String username, String password) {
+        Optional<Sindicato> sindicatoOpt = sindicatoRepository.findByUsername(username);
+        if (sindicatoOpt.isPresent()) {
+            Sindicato sindicato = sindicatoOpt.get();
+            return password.equals(sindicato.getPassword());
+        }
+        return false;
+    }
 
     public Sindicato createSindicato(Sindicato sindicato) {
-        sindicato.setPassword(passwordEncoder.encode(sindicato.getPassword()));
         return sindicatoRepository.save(sindicato);
     }
 
@@ -43,7 +47,7 @@ public class SindicatoService {
         }
 
         if (sindicatoDetails.getPassword() != null && !sindicatoDetails.getPassword().isEmpty()) {
-            sindicato.setPassword(passwordEncoder.encode(sindicatoDetails.getPassword()));
+            sindicato.setPassword(sindicatoDetails.getPassword());
         }
 
         return sindicatoRepository.save(sindicato);
