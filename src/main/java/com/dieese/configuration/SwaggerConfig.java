@@ -19,8 +19,8 @@ public class SwaggerConfig {
     OpenAPI springDieeseAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("API de Greves e Sindicatos")
-                        .description("API para gerenciamento de greves e sindicatos.")
+                        .title("API de Greves")
+                        .description("API para gerenciamento de greves.")
                         .version("v1.0.0")
                         .contact(new Contact()
                                 .name("Mayara Rocha")
