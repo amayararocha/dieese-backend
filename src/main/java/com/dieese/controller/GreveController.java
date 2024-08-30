@@ -1,8 +1,9 @@
 package com.dieese.controller;
 
 import com.dieese.model.Greve;
-import com.dieese.repository.GreveRepository;
+import com.dieese.service.GreveService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,43 +18,48 @@ import java.util.Optional;
 public class GreveController {
 
     @Autowired
-    private GreveRepository greveRepository;
+    private GreveService greveService;
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<Greve>> getAll() {
-        List<Greve> greves = greveRepository.findAll();
+        List<Greve> greves = greveService.getAllGreves();
         return ResponseEntity.ok(greves);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Greve> getById(@PathVariable Long id) {
-        Optional<Greve> greve = greveRepository.findById(id);
+        Optional<Greve> greve = greveService.getGreveById(id);
         return greve.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/cadastrar")
+    @PostMapping
     public ResponseEntity<Greve> postGreve(@RequestBody @Valid Greve greve) {
         try {
-            Greve savedGreve = greveRepository.save(greve);
+            Greve savedGreve = greveService.saveGreve(greve);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedGreve);
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
-    @PutMapping("/atualizar")
-    public ResponseEntity<Greve> putGreve(@RequestBody @Valid Greve greve) {
-        if (greveRepository.existsById(greve.getId())) {
-            Greve updatedGreve = greveRepository.save(greve);
-            return ResponseEntity.ok(updatedGreve);
+    @PutMapping("/{id}")
+    public ResponseEntity<Greve> putGreve(@PathVariable Long id, @RequestBody @Valid Greve greve) {
+        try {
+            Optional<Greve> updatedGreve = greveService.updateGreve(id, greve);
+            return updatedGreve.map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @DeleteMapping("/deletar/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGreve(@PathVariable Long id) {
-        if (greveRepository.existsById(id)) {
-            greveRepository.deleteById(id);
+        if (greveService.deleteGreve(id)) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
