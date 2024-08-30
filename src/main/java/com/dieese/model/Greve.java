@@ -30,8 +30,7 @@ public class Greve {
     private String motivo;
 
     @NotEmpty(message = "O atributo categoria é Obrigatório!")
-    @ElementCollection
-    private List<String> categoriasTrabalhadores;
+    private String categoriasTrabalhadores;
 
     @NotNull(message = "O atributo número de trabalhadores é Obrigatório!")
     private int numeroTrabalhadores;
