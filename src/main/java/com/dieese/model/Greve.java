@@ -2,10 +2,7 @@ package com.dieese.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -42,4 +39,9 @@ public class Greve {
     @JoinColumn(name = "usuario_id")
     @JsonBackReference
     private Usuario usuario;
+
+    @AssertTrue(message = "A data de fim deve ser posterior à data de início")
+    private boolean isDataFimValida() {
+        return dataFim.isAfter(dataInicio);
+    }
 }
