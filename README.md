@@ -110,7 +110,7 @@ A API também gerencia usuários para controlar o acesso e as permissões. Os en
 - **dataInicio** (String): Data de início da greve (formato YYYY-MM-DD).
 - **dataFim** (String): Data de término da greve (formato YYYY-MM-DD).
 - **motivo** (String): Motivo da greve.
-- **categoriasTrabalhadores** (Array of Strings): Categorias de trabalhadores envolvidos.
+- **categoriasTrabalhadores** (String): Categorias de trabalhadores envolvidos.
 - **numeroTrabalhadores** (Integer): Número total de trabalhadores envolvidos.
 - **local** (String): Local onde a greve ocorreu.
 
@@ -138,7 +138,3 @@ Para executar a API localmente, siga os passos abaixo:
 4. **Execute a aplicação.**
 
 5. **Acesse a API em http://localhost:8080.**
-
-## Autenticação
-
-A API pode exigir autenticação para acessar alguns endpoints. Verifique a configuração de segurança no Swagger para detalhes.
