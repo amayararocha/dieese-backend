@@ -23,6 +23,14 @@ public class GreveService {
         return greveRepository.findById(id);
     }
 
+    public List<Greve> getGrevesByCategoria(String categoria) {
+        return greveRepository.findByCategoriasTrabalhadoresContainingIgnoreCase(categoria);
+    }
+
+    public List<Greve> getGrevesBySindicato(String sindicato) {
+        return greveRepository.findBySindicatoContainingIgnoreCase(sindicato);
+    }
+
     public Greve saveGreve(Greve greve) throws DataIntegrityViolationException {
         return greveRepository.save(greve);
     }

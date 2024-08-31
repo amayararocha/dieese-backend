@@ -35,6 +35,10 @@ public class Greve {
     @NotBlank(message = "O atributo local é Obrigatório!")
     private String local;
 
+    @NotBlank(message = "O sindicato é obrigatório!")
+    @Size(min = 3, max = 100, message = "O sindicato deve ter entre 3 e 100 caracteres.")
+    private String sindicato;
+
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     @JsonBackReference

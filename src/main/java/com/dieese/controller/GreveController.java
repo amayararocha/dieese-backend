@@ -32,6 +32,18 @@ public class GreveController {
         return greve.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/categoria/{categoria}")
+    public ResponseEntity<List<Greve>> getByCategoria(@PathVariable String categoria) {
+        List<Greve> greves = greveService.getGrevesByCategoria(categoria);
+        return ResponseEntity.ok(greves);
+    }
+
+    @GetMapping("/sindicato/{sindicato}")
+    public ResponseEntity<List<Greve>> getBySindicato(@PathVariable String sindicato) {
+        List<Greve> greves = greveService.getGrevesBySindicato(sindicato);
+        return ResponseEntity.ok(greves);
+    }
+
     @PostMapping
     public ResponseEntity<Greve> postGreve(@RequestBody @Valid Greve greve) {
         try {
