@@ -56,6 +56,24 @@ A API está documentada no Swagger e você pode visualizar todos os detalhes dos
   - `id` (Path): ID da greve a ser excluída.
 - **Resposta:** Mensagem de confirmação da exclusão.
 
+#### 6. **Listar greves por sindicato**
+
+- **URL:** `/greves/sindicato/{sindicato}`
+- **Método:** `GET`
+- **Descrição:** Recupera uma lista de greves associadas a um sindicato específico.
+- **Parâmetros:**
+  - `sindicato` (Path): Nome do sindicato.
+- **Resposta:** Uma lista de objetos `Greve` associadas ao sindicato fornecido.
+
+#### 7. **Listar greves por categoria**
+
+- **URL:** `/greves/categoria/{categoria}`
+- **Método:** `GET`
+- **Descrição:** Recupera uma lista de greves associadas a uma categoria específica de trabalhadores.
+- **Parâmetros:**
+  - `categoria` (Path): Categoria de trabalhadores.
+- **Resposta:** Uma lista de objetos `Greve` associadas à categoria fornecida.
+
 ### Camada de Usuário
 
 A API também gerencia usuários para controlar o acesso e as permissões. Os endpoints relacionados a usuários são descritos abaixo.
@@ -76,15 +94,23 @@ A API também gerencia usuários para controlar o acesso e as permissões. Os en
   - `id` (Path): ID do usuário.
 - **Resposta:** Um objeto `Usuario` com os detalhes do usuário solicitado.
 
-#### 3. **Criar um novo usuário**
+#### 3. **Cadastrar um novo usuário**
 
-- **URL:** `/usuarios`
+- **URL:** `/usuarios/cadastrar`
 - **Método:** `POST`
 - **Descrição:** Cria um novo usuário com as informações fornecidas.
 - **Corpo da Requisição:** Um objeto `Usuario` com os detalhes do usuário a ser criado.
 - **Resposta:** O objeto `Usuario` criado com um `id` gerado.
 
-#### 4. **Atualizar um usuário existente**
+#### 4. **Logar um usuário**
+
+- **URL:** `/usuarios/logar`
+- **Método:** `POST`
+- **Descrição:** Realiza o login de um usuário com as credenciais fornecidas.
+- **Corpo da Requisição:** Um objeto com `email` e `senha` do usuário.
+- **Resposta:** Dados do usuário logado ou mensagem de erro.
+
+#### 5. **Atualizar um usuário existente**
 
 - **URL:** `/usuarios/{id}`
 - **Método:** `PUT`
@@ -94,25 +120,19 @@ A API também gerencia usuários para controlar o acesso e as permissões. Os en
 - **Corpo da Requisição:** Um objeto `Usuario` com as informações atualizadas.
 - **Resposta:** O objeto `Usuario` atualizado.
 
-#### 5. **Excluir um usuário**
-
-- **URL:** `/usuarios/{id}`
-- **Método:** `DELETE`
-- **Descrição:** Remove um usuário específico do sistema.
-- **Parâmetros:**
-  - `id` (Path): ID do usuário a ser excluído.
-- **Resposta:** Mensagem de confirmação da exclusão.
-
 ## Modelo de Dados
 
 ### Greve
 
+- **id** (Long): ID único da greve.
 - **dataInicio** (String): Data de início da greve (formato YYYY-MM-DD).
 - **dataFim** (String): Data de término da greve (formato YYYY-MM-DD).
 - **motivo** (String): Motivo da greve.
 - **categoriasTrabalhadores** (String): Categorias de trabalhadores envolvidos.
-- **numeroTrabalhadores** (Integer): Número total de trabalhadores envolvidos.
+- **numeroTrabalhadores** (int): Número total de trabalhadores envolvidos.
 - **local** (String): Local onde a greve ocorreu.
+- **sindicato** (String): Nome do sindicato responsável pela greve.
+- **usuario** (Object): Objeto `Usuario` associado à greve.
 
 ### Usuario
 
