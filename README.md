@@ -2,16 +2,16 @@
 
 Bem-vindo à API Greve! Esta API fornece endpoints para gerenciar informações sobre greves, incluindo detalhes como datas, motivos, categorias de trabalhadores e muito mais.
 
-## Endpoints
+## 📚 Endpoints
 
 A API está documentada no Swagger e você pode visualizar todos os detalhes dos endpoints [aqui](https://greve-dieese.onrender.com/swagger-ui/index.html#/).
 
-## Tecnologias
+## 🛠 Tecnologias
 
 - **Spring Boot**: Framework para construção de aplicações Java.
 - **MySQL**: Sistema de gerenciamento de banco de dados relacional.
 
-## Endpoints Principais
+## 🚀 Endpoints Principais
 
 #### 1. **Listar todas as greves**
 
@@ -74,7 +74,7 @@ A API está documentada no Swagger e você pode visualizar todos os detalhes dos
   - `categoria` (Path): Categoria de trabalhadores.
 - **Resposta:** Uma lista de objetos `Greve` associadas à categoria fornecida.
 
-### Camada de Usuário
+### 👥 Camada de Usuário
 
 A API também gerencia usuários para controlar o acesso e as permissões. Os endpoints relacionados a usuários são descritos abaixo.
 
@@ -120,7 +120,7 @@ A API também gerencia usuários para controlar o acesso e as permissões. Os en
 - **Corpo da Requisição:** Um objeto `Usuario` com as informações atualizadas.
 - **Resposta:** O objeto `Usuario` atualizado.
 
-## Modelo de Dados
+## 🗃️ Modelo de Dados
 
 ### Greve
 
@@ -136,12 +136,13 @@ A API também gerencia usuários para controlar o acesso e as permissões. Os en
 
 ### Usuario
 
-- **id** (Integer): ID único do usuário.
+- **id** (int): ID único do usuário.
 - **nome** (String): Nome completo do usuário.
-- **email** (String): Endereço de e-mail do usuário.
+- **usuário** (String): Endereço de e-mail do usuário.
+- **localização** (String): Localização do usuário.
 - **senha** (String): Senha do usuário (armazenada de forma segura).
 
-## Execução Local
+## ⚙️ Execução Local
 
 Para executar a API localmente, siga os passos abaixo:
 
